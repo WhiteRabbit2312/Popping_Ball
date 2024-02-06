@@ -1,13 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : Action
 {
+    [SerializeField] private Text resultOfGameText;
+    [SerializeField] private GameObject endGamePanel;
     public GameObject bullet;
     public Transform spawnPoint;
-    //private float scaleSpeed; // Скорость изменения размера
-    //public float minScale = 0.1f;   // Минимальный размер, чтобы избежать отрицательных значений
+    //private float scaleSpeed;
+    //public float minScale = 0.1f;  
 
     public float detectionDistance = 15f;
     //private bool isMousePressed = false;
@@ -27,13 +31,16 @@ public class PlayerController : Action
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (!IsGameOver())
         {
-            Instantiate(bullet, spawnPoint);
+            if (Input.GetMouseButtonDown(0))
+            {
+                Instantiate(bullet, spawnPoint);
+            }
+            ChangeSize();
+            FindObstacle();
+            
         }
-        ChangeSize();
-        FindObstacle();
-       
     }
 
     public override void Move()
@@ -41,7 +48,6 @@ public class PlayerController : Action
         Vector3 movement = Vector3.forward * 2f * Time.deltaTime;
         transform.Translate(movement);
 
-        // Обработка прыжка
         if (IsGrounded())
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -50,7 +56,6 @@ public class PlayerController : Action
 
     private bool IsGrounded()
     {
-        // Проверка, касается ли персонаж земли
         RaycastHit hit;
         float distance = 0.1f;
         return Physics.Raycast(transform.position, Vector3.down, out hit, distance);
@@ -59,27 +64,16 @@ public class PlayerController : Action
 
     private void FindObstacle()
     {
-        // Получаем положение игрока
         Vector3 playerPosition = transform.position;
-
-        // Задаем направление вперед от игрока
         Vector3 forward = transform.forward;
 
-        // Создаем луч в направлении вперед от игрока
-        /*
-        Ray ray = new Ray(playerPosition, forward);
-        Ray ray1 = new Ray(new Vector3(playerPosition.x - 0.72f, playerPosition.y, playerPosition.z), forward);
-        Ray ray2 = new Ray(new Vector3(playerPosition.x + 0.72f, playerPosition.y, playerPosition.z), forward);
-        Ray ray3 = new Ray(new Vector3(playerPosition.x + 0.4f, playerPosition.y, playerPosition.z), forward);
-        Ray ray4 = new Ray(new Vector3(playerPosition.x - 0.4f, playerPosition.y, playerPosition.z), forward);
-        */
         Ray[] rayArray = new Ray[5];
         
         float[] offset = 
         {
             0f, 
-            -(gameObject.transform.localScale.x / 2), 
-             (gameObject.transform.localScale.x / 2), 
+            -(gameObject.transform.localScale.x / 2.5f), 
+             (gameObject.transform.localScale.x / 2.5f), 
              (gameObject.transform.localScale.x / 4), 
             -(gameObject.transform.localScale.x / 4)
         };
@@ -91,45 +85,61 @@ public class PlayerController : Action
             rayArray[i] = new Ray(new Vector3(playerPosition.x + offset[i], playerPosition.y, playerPosition.z), forward);
             Debug.DrawRay(a, Vector3.forward, Color.green, 100f);
         }
-        /*
-        rayArray[0] = new Ray(playerPosition, forward);
-        rayArray[1] = new Ray(new Vector3(playerPosition.x + (gameObject.transform.localScale.x / 2), playerPosition.y, playerPosition.z), forward);
-        rayArray[2] = new Ray(new Vector3(playerPosition.x - (gameObject.transform.localScale.x / 2), playerPosition.y, playerPosition.z), forward);
-        rayArray[2] = new Ray(new Vector3(playerPosition.x + (gameObject.transform.localScale.x / 4), playerPosition.y, playerPosition.z), forward);
-        rayArray[2] = new Ray(new Vector3(playerPosition.x - (gameObject.transform.localScale.x / 4), playerPosition.y, playerPosition.z), forward);
+  
 
-        
-
-        for (int i = 0; i < rayArray.Length; ++i)
+        if (!FindHit(rayArray))
         {
-            Debug.DrawRay(rayArray[i].direction, Vector3.forward, Color.green, 100f);
+            Debug.Log("Hit");
+            rb.velocity = Vector3.zero;
         }
 
-        */
-
-        // Создаем переменную для хранения информации о столкновении
-        RaycastHit hit;
-
+        else
+        {
+            Move();
+        }
         
+    }
+
+    private bool FindHit(Ray[] rayArray)
+    {
+        RaycastHit hit;
+        float detectionDistance = 3f;
 
         foreach (var ray in rayArray)
         {
             if (Physics.Raycast(ray, out hit, detectionDistance))
             {
-                if(hit.collider.gameObject.tag == "Obstacle")
+                if (hit.collider.gameObject.tag == "Obstacle")
                 {
-                    rb.velocity = Vector3.zero;
+                    return false;
                 }
-                
-            }
 
-            else
-            {
-                Move();
             }
         }
 
-        /*
+        return true;
+    }
+
+    private bool IsGameOver()
+    {
+        float minimalSize = 0.7f;
+        if(gameObject.transform.localScale.x <= minimalSize)
+        {
+            endGamePanel.SetActive(true);
+            resultOfGameText.text = "Game Over";
+            return true;
+        }
+
+        return false;
+    }
+
+    public void RestartButton()
+    {
+        SceneManager.LoadScene(0);
+    }
+}
+
+/*
         // Проверяем столкновение на определенном расстоянии
         if (!Physics.Raycast(ray, out hit, detectionDistance))
         {
@@ -180,5 +190,3 @@ public class PlayerController : Action
         {
             rb.velocity = Vector3.zero;
         }*/
-    }
-}

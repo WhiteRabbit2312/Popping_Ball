@@ -4,22 +4,40 @@ using UnityEngine;
 
 public class Path : MonoBehaviour
 {
-    private float scaleSpeed; // —корость изменени€ размера
-    public float minScale = 0.1f;   // ћинимальный размер, чтобы избежать отрицательных значений
+    //private float scaleSpeed; // —корость изменени€ размера
+    //public float minScale = 0.1f;   // ћинимальный размер, чтобы избежать отрицательных значений
 
-    private bool isMousePressed = false;
+    //private bool isMousePressed = false;
     // Start is called before the first frame update
+
+    float scaleSpeedPath = 0.1f;
+    bool isMousePressedPath = false;
     void Start()
     {
-        scaleSpeed = 0.1f;
+        //scaleSpeed = 0.1f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        ChangeSize();
+        if (Input.GetMouseButtonDown(0))
+        {
+            isMousePressedPath = true;
+        }
+
+        else if (Input.GetMouseButtonUp(0))
+        {
+            isMousePressedPath = false;
+        }
+
+        if (isMousePressedPath)
+        {
+            transform.localScale -= new Vector3(scaleSpeedPath, 0, 0) * Time.deltaTime;
+        }
     }
 
+
+    /*
     public void ChangeSize()
     {
 
@@ -45,5 +63,5 @@ public class Path : MonoBehaviour
         //touch.phase == TouchPhase.Ended || 
 
 
-    }
+    }*/
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bullet: Action
 {
     //public float scaleSpeed = 0.5f; // —корость изменени€ размера
-    public float minScale = 0.1f;   // ћинимальный размер, чтобы избежать отрицательных значений
+    //public float minScale = 0.1f;   // ћинимальный размер, чтобы избежать отрицательных значений
 
     //private bool isMousePressed = true;
 

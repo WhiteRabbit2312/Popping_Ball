@@ -7,7 +7,7 @@ public class Obstacles : MonoBehaviour
     public Material _explodeMaterial;
     Renderer obstacleRenderer;
     Animator animator;
-
+    private float rayLength;
 
     // Start is called before the first frame update
     void Start()
@@ -26,21 +26,19 @@ public class Obstacles : MonoBehaviour
     {
         if(other.tag == "Bullet")
         {
-            StartCoroutine(Infection());
-            
-            /*
-            obstacleRenderer.material = _explodeMaterial;
-            animator.Play("Explode");
-            Destroy(gameObject, 0.4f);*/
+            rayLength = other.gameObject.transform.localScale.x;
+            Infection();
+
             Explosion(gameObject);
 
             Destroy(other.gameObject);
+            
         }
     }
 
     private int numberOfRays = 30;
-    private float rayLength = 0.7f;
-    private IEnumerator Infection()
+    
+    private void Infection()
     {
         float angleStep = 360f / numberOfRays;
 
@@ -61,19 +59,17 @@ public class Obstacles : MonoBehaviour
                 if (hit.collider.gameObject.tag == "Obstacle")
                 {
                     Explosion(hit.collider.gameObject);
-                    yield return new WaitForSeconds(0.1f);
                 }
             }
 
         }
-
-
     }
 
     private void Explosion(GameObject go)
     {
         go.GetComponent<Animator>().Play("Explode");
         go.GetComponent<Renderer>().material = _explodeMaterial;
+
         Destroy(go, 0.4f);
     }
 }

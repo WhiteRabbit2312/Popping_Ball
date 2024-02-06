@@ -16,7 +16,6 @@ public class PlayerController : Action
     public float detectionDistance = 15f;
     //private bool isMousePressed = false;
 
-    public float detectionRadius = 5f;
 
     public float jumpForce = 5.0f;
     public bool isGrounded = true;
@@ -24,8 +23,7 @@ public class PlayerController : Action
     // Start is called before the first frame update
     void Awake()
     {
-        rb = GetComponent<Rigidbody>();
-        
+        rb = GetComponent<Rigidbody>(); 
     }
 
     // Update is called once per frame
@@ -103,7 +101,7 @@ public class PlayerController : Action
     private bool FindHit(Ray[] rayArray)
     {
         RaycastHit hit;
-        float detectionDistance = 3f;
+        float detectionDistance = 2f;
 
         foreach (var ray in rayArray)
         {
@@ -116,6 +114,7 @@ public class PlayerController : Action
 
             }
         }
+
 
         return true;
     }

@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Action
 {
     public GameObject bullet;
     public Transform spawnPoint;
-    private float scaleSpeed; // Скорость изменения размера
-    public float minScale = 0.1f;   // Минимальный размер, чтобы избежать отрицательных значений
+    //private float scaleSpeed; // Скорость изменения размера
+    //public float minScale = 0.1f;   // Минимальный размер, чтобы избежать отрицательных значений
 
-    public float detectionDistance = 5f;
-    private bool isMousePressed = false;
+    public float detectionDistance = 15f;
+    //private bool isMousePressed = false;
 
     public float detectionRadius = 5f;
 
@@ -21,66 +21,41 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        scaleSpeed = 0.1f;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        ChangeSize();
-        FindObstacle();
-    }
-
-    public void ChangeSize()
-    {
-
-        //Touch touch = Input.GetTouch(0);
-
-        //if (touch.phase == TouchPhase.Began || )
         if (Input.GetMouseButtonDown(0))
         {
             Instantiate(bullet, spawnPoint);
-            isMousePressed = true;
         }
-
-        else if (Input.GetMouseButtonUp(0))
-        {
-            isMousePressed = false;
-        }
-
-        if (isMousePressed)
-        {
-          
-            transform.localScale -= new Vector3(scaleSpeed, scaleSpeed, scaleSpeed) * Time.deltaTime;
-
+        ChangeSize();
+        FindObstacle();
        
-            transform.localScale = Vector3.Max(transform.localScale, new Vector3(minScale, minScale, minScale));
-        }
-        //touch.phase == TouchPhase.Ended || 
-        
-
     }
 
-    public void Move()
+    public override void Move()
     {
-
         Vector3 movement = Vector3.forward * 2f * Time.deltaTime;
         transform.Translate(movement);
 
         // Обработка прыжка
-        if ( IsGrounded())
+        if (IsGrounded())
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
 
-    bool IsGrounded()
+    private bool IsGrounded()
     {
         // Проверка, касается ли персонаж земли
         RaycastHit hit;
         float distance = 0.1f;
         return Physics.Raycast(transform.position, Vector3.down, out hit, distance);
     }
+
 
     private void FindObstacle()
     {
@@ -91,15 +66,70 @@ public class PlayerController : MonoBehaviour
         Vector3 forward = transform.forward;
 
         // Создаем луч в направлении вперед от игрока
+        /*
         Ray ray = new Ray(playerPosition, forward);
         Ray ray1 = new Ray(new Vector3(playerPosition.x - 0.72f, playerPosition.y, playerPosition.z), forward);
         Ray ray2 = new Ray(new Vector3(playerPosition.x + 0.72f, playerPosition.y, playerPosition.z), forward);
         Ray ray3 = new Ray(new Vector3(playerPosition.x + 0.4f, playerPosition.y, playerPosition.z), forward);
         Ray ray4 = new Ray(new Vector3(playerPosition.x - 0.4f, playerPosition.y, playerPosition.z), forward);
+        */
+        Ray[] rayArray = new Ray[5];
+        
+        float[] offset = 
+        {
+            0f, 
+            -(gameObject.transform.localScale.x / 2), 
+             (gameObject.transform.localScale.x / 2), 
+             (gameObject.transform.localScale.x / 4), 
+            -(gameObject.transform.localScale.x / 4)
+        };
+
+        for(int i = 0; i < rayArray.Length; ++i)
+        {
+            Vector3 a = new Vector3(playerPosition.x + offset[i], playerPosition.y, playerPosition.z);
+
+            rayArray[i] = new Ray(new Vector3(playerPosition.x + offset[i], playerPosition.y, playerPosition.z), forward);
+            Debug.DrawRay(a, Vector3.forward, Color.green, 100f);
+        }
+        /*
+        rayArray[0] = new Ray(playerPosition, forward);
+        rayArray[1] = new Ray(new Vector3(playerPosition.x + (gameObject.transform.localScale.x / 2), playerPosition.y, playerPosition.z), forward);
+        rayArray[2] = new Ray(new Vector3(playerPosition.x - (gameObject.transform.localScale.x / 2), playerPosition.y, playerPosition.z), forward);
+        rayArray[2] = new Ray(new Vector3(playerPosition.x + (gameObject.transform.localScale.x / 4), playerPosition.y, playerPosition.z), forward);
+        rayArray[2] = new Ray(new Vector3(playerPosition.x - (gameObject.transform.localScale.x / 4), playerPosition.y, playerPosition.z), forward);
+
+        
+
+        for (int i = 0; i < rayArray.Length; ++i)
+        {
+            Debug.DrawRay(rayArray[i].direction, Vector3.forward, Color.green, 100f);
+        }
+
+        */
 
         // Создаем переменную для хранения информации о столкновении
         RaycastHit hit;
 
+        
+
+        foreach (var ray in rayArray)
+        {
+            if (Physics.Raycast(ray, out hit, detectionDistance))
+            {
+                if(hit.collider.gameObject.tag == "Obstacle")
+                {
+                    rb.velocity = Vector3.zero;
+                }
+                
+            }
+
+            else
+            {
+                Move();
+            }
+        }
+
+        /*
         // Проверяем столкновение на определенном расстоянии
         if (!Physics.Raycast(ray, out hit, detectionDistance))
         {
@@ -149,6 +179,6 @@ public class PlayerController : MonoBehaviour
         else
         {
             rb.velocity = Vector3.zero;
-        }
+        }*/
     }
 }

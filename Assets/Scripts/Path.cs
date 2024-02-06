@@ -24,7 +24,6 @@ public class Path : MonoBehaviour
     {
 
         //Touch touch = Input.GetTouch(0);
-        Debug.Log("Нажатие на экран: ");
         //if (touch.phase == TouchPhase.Began || )
         if (Input.GetMouseButtonDown(0))
         {

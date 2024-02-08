@@ -32,7 +32,7 @@ public class Bullet: ObjectsActions
         return false;
     }
     
-    public override void Move()
+    protected override void Move()
     {
         rb.isKinematic = false;
         rb.velocity = transform.forward * speed;

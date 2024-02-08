@@ -26,5 +26,5 @@ public abstract class ObjectsActions : MonoBehaviour
             transform.localScale += new Vector3(scaleSpeed, scaleSpeed, scaleSpeed) * Time.deltaTime;
         }
     }
-    public abstract void Move();
+    protected abstract void Move();
 }

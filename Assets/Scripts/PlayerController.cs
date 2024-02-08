@@ -47,7 +47,7 @@ public class PlayerController : ObjectsActions
         }
     }
 
-    public override void Move()
+    protected override void Move()
     {
         Vector3 movement = Vector3.forward * Time.deltaTime;
         transform.Translate(movement);
@@ -60,6 +60,7 @@ public class PlayerController : ObjectsActions
 
         Ray[] rayArray = new Ray[5];
         
+        //Set rays in the middle, right, left and between Player to check if there are any obstacles near
         float[] offset = 
         {
             0f, 

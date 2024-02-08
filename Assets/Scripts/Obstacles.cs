@@ -3,16 +3,16 @@ using System;
 
 public class Obstacles : MonoBehaviour
 {
-
     public static Action onObstacleInfected;
     private float rayLength;
     private int numberOfRays = 50;
+    private float k = 0.7f;
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Bullet")
         {
-            rayLength = other.gameObject.transform.localScale.x * PlayerController.PlayerSize * 0.7f;
+            rayLength = other.gameObject.transform.localScale.x * PlayerController.PlayerSize * k;
             gameObject.tag = "Infected";
             Infection();
             onObstacleInfected?.Invoke();

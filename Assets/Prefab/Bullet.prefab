@@ -121,7 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMousePressed: 1
   scaleSpeed: 0.6
-  minScale: 0.1
+  borderSize: 1
   speed: 10
   lifetime: 2
 --- !u!54 &6876713298391031851

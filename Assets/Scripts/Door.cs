@@ -12,17 +12,11 @@ public class Door : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        if (other.gameObject.name == "Player")
         {
-            animator.Play("OpenDoor");
+            animator.SetTrigger("OpenDoor");
         }
     }
 }

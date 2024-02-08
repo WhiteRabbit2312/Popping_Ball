@@ -1,16 +1,18 @@
 using UnityEngine;
-public abstract class Action : MonoBehaviour
+public abstract class ObjectsActions : MonoBehaviour
 {
     [SerializeField] private bool isMousePressed;
 
     [SerializeField] private float scaleSpeed;
+    [SerializeField] private float borderSize;
+
+    protected float maxBulletSize = 1.5f;
 
     protected void ChangeSize()
     {
 
         if (Input.GetMouseButtonDown(0))
         {
-            //Instantiate(bullet, spawnPoint);
             isMousePressed = true;
         }
 
@@ -21,11 +23,10 @@ public abstract class Action : MonoBehaviour
 
         if (isMousePressed)
         {
-
             transform.localScale += new Vector3(scaleSpeed, scaleSpeed, scaleSpeed) * Time.deltaTime;
 
 
-            //transform.localScale = Vector3.Max(transform.localScale, new Vector3(minScale, minScale, minScale));
+            //transform.localScale = Vector3.Min(transform.localScale, new Vector3(minScale, minScale, minScale));
         }
     }
     public abstract void Move();

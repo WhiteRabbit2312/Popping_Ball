@@ -1,43 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
+using System;
 
 public class Obstacles : MonoBehaviour
 {
-    public Material _explodeMaterial;
-    Renderer obstacleRenderer;
-    Animator animator;
     private float rayLength;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        obstacleRenderer = GetComponent<Renderer>();
-        animator = GetComponent<Animator>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public static Action onObstacleInfected;
+    private int numberOfRays = 50;
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Bullet")
         {
             rayLength = other.gameObject.transform.localScale.x;
+            gameObject.tag = "Infected";
             Infection();
-
-            Explosion(gameObject);
-
+            onObstacleInfected?.Invoke();
             Destroy(other.gameObject);
-            
         }
     }
 
-    private int numberOfRays = 30;
-    
     private void Infection()
     {
         float angleStep = 360f / numberOfRays;
@@ -58,18 +40,9 @@ public class Obstacles : MonoBehaviour
             {
                 if (hit.collider.gameObject.tag == "Obstacle")
                 {
-                    Explosion(hit.collider.gameObject);
+                    hit.collider.gameObject.tag = "Infected";
                 }
             }
-
         }
-    }
-
-    private void Explosion(GameObject go)
-    {
-        go.GetComponent<Animator>().Play("Explode");
-        go.GetComponent<Renderer>().material = _explodeMaterial;
-
-        Destroy(go, 0.4f);
-    }
+    } 
 }

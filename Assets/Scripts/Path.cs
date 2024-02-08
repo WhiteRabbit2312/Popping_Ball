@@ -16,7 +16,7 @@ public class Path : MonoBehaviour
     {
         //scaleSpeed = 0.1f;
     }
-
+    
     // Update is called once per frame
     void Update()
     {
@@ -35,7 +35,7 @@ public class Path : MonoBehaviour
             transform.localScale -= new Vector3(scaleSpeedPath, 0, 0) * Time.deltaTime;
         }
     }
-
+    
 
     /*
     public void ChangeSize()

@@ -1612,7 +1612,7 @@ Camera:
     height: 1
   near clip plane: 0.01
   far clip plane: 1000
-  field of view: 34
+  field of view: 36
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -1638,13 +1638,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 656317657}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.28925315, y: -0.117324114, z: 0.035746466, w: 0.94936293}
+  m_LocalRotation: {x: 0.28937316, y: -0.114092276, z: 0.034761786, w: 0.94975674}
   m_LocalPosition: {x: 3.5, y: 12.43, z: -19.48534}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 33.89, y: -14.09, z: 0}
+  m_LocalEulerAnglesHint: {x: 33.89, y: -13.7, z: 0}
 --- !u!1 &679159598
 GameObject:
   m_ObjectHideFlags: 0
@@ -2603,7 +2603,7 @@ Transform:
   m_GameObject: {fileID: 1008788984}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.05657938, y: -14.113162, z: 5.6817007}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2944,8 +2944,8 @@ Transform:
   m_GameObject: {fileID: 1101442648}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.8257033, z: -9.719583}
-  m_LocalScale: {x: 1.9012547, y: 1.9012547, z: 1.9012547}
+  m_LocalPosition: {x: 0, y: 1.783695, z: -9.719583}
+  m_LocalScale: {x: 1.8172382, y: 1.8172382, z: 1.8172382}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 648632695}
@@ -2971,7 +2971,6 @@ MonoBehaviour:
   endGamePanel: {fileID: 1897392495}
   bullet: {fileID: 7478496824797284337, guid: b058bd0d38354f145b9eab6ecfe12402, type: 3}
   spawnPoint: {fileID: 648632695}
-  isGrounded: 1
 --- !u!54 &1101442654
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3299,6 +3298,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c93faf81ff21b143995868846b312fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resultOfGameText: {fileID: 200653877}
+  endGamePanel: {fileID: 1897392495}
 --- !u!1001 &1283769044
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5242,7 +5243,7 @@ GameObject:
   - component: {fileID: 2046400962}
   - component: {fileID: 2046400961}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5328,8 +5329,8 @@ Transform:
   m_GameObject: {fileID: 2046400960}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.26559, y: 0.6487, z: -0.333}
-  m_LocalScale: {x: 27.684023, y: 0.3515, z: 38.57901}
+  m_LocalPosition: {x: -0.26559, y: 0.6487, z: 4.3659}
+  m_LocalScale: {x: 27.684023, y: 0.3515, z: 47.976856}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

@@ -1,11 +1,10 @@
-
 using UnityEngine;
 using System;
 
 public class Obstacles : MonoBehaviour
 {
-    private float rayLength;
     public static Action onObstacleInfected;
+    private float rayLength;
     private int numberOfRays = 50;
 
     private void OnTriggerEnter(Collider other)

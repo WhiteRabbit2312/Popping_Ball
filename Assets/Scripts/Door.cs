@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Door : MonoBehaviour
 {
-    // Start is called before the first frame update
-
     private Animator animator;
+    [SerializeField] private Text resultOfGameText;
+    [SerializeField] private GameObject endGamePanel;
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -17,6 +16,10 @@ public class Door : MonoBehaviour
         if (other.gameObject.name == "Player")
         {
             animator.SetTrigger("OpenDoor");
+
+            endGamePanel.SetActive(true);
+            resultOfGameText.text = "You win!";
+
         }
     }
 }

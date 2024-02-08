@@ -24,9 +24,6 @@ public abstract class ObjectsActions : MonoBehaviour
         if (isMousePressed)
         {
             transform.localScale += new Vector3(scaleSpeed, scaleSpeed, scaleSpeed) * Time.deltaTime;
-
-
-            //transform.localScale = Vector3.Min(transform.localScale, new Vector3(minScale, minScale, minScale));
         }
     }
     public abstract void Move();

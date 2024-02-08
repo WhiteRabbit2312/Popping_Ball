@@ -1,15 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System;
 public class Bullet: ObjectsActions
 {
-    public float speed = 100f; // Скорость полета пули
-    public float lifetime = 2f;
+    private float speed = 10;
+    private float lifetime = 0.5f;
+
+    private Rigidbody rb;
 
     private void Awake()
     {
-        
+        rb = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -27,18 +26,16 @@ public class Bullet: ObjectsActions
     {
         if(transform.localScale.x >= maxBulletSize)
         {
-            Debug.Log("Max");
             return true;
         }
-        Debug.Log("Min");
 
         return false;
     }
     
     public override void Move()
     {
-        GetComponent<Rigidbody>().isKinematic = false;
-        GetComponent<Rigidbody>().velocity = transform.forward * speed;
+        rb.isKinematic = false;
+        rb.velocity = transform.forward * speed;
         Destroy(gameObject, lifetime);
     }
 }

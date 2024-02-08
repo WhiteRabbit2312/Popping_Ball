@@ -1,32 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class PlayerController : ObjectsActions
 {
     [SerializeField] private GameObject path;
     [SerializeField] private Text resultOfGameText;
     [SerializeField] private GameObject endGamePanel;
-    public GameObject bullet;
-    public Transform spawnPoint;
+    [SerializeField] private GameObject bullet;
+    [SerializeField] private Transform spawnPoint;
 
-    private float scaleSpeedPath = 0.3f;
-
-    public bool isGrounded = true;
     private Rigidbody rb;
-    //private Bullet bulletObj = new Bullet();
-    GameObject bulletOnScene;
+    private GameObject bulletOnScene;
 
-    // Start is called before the first frame update
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         bulletOnScene = new GameObject();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!IsGameOver())
@@ -36,14 +27,11 @@ public class PlayerController : ObjectsActions
                 bulletOnScene = Instantiate(bullet, spawnPoint);
             }
 
-            //if(bullet.transform.localScale.x < maxBulletSize)
             if (bulletOnScene != null)
             {
                 if (bulletOnScene.transform.localScale.x < maxBulletSize)
                 {
-                    Debug.Log("Min size");
                     ChangeSize();
-                    //path.transform.localScale -= new Vector3(scaleSpeedPath, 0, 0) * Time.deltaTime;
                 }
             }
                 
@@ -51,30 +39,11 @@ public class PlayerController : ObjectsActions
         }
     }
 
-    private float amplitude = 0.01f; 
-    private float frequency = 1f; 
-    private float startTime;
     public override void Move()
     {
-        float offsetY = amplitude * Mathf.Sin(2 * Mathf.PI * frequency * (Time.time - startTime));
         Vector3 movement = Vector3.forward * Time.deltaTime;
-        //movement.y += offsetY;
         transform.Translate(movement);
-        /*
-        if (IsGrounded())
-        {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        }*/
     }
-
-
-    private bool IsGrounded()
-    {
-        RaycastHit hit;
-        float distance = 1f;
-        return Physics.Raycast(transform.position, Vector3.down, out hit, distance);
-    }
-
 
     private void FindObstacle()
     {
@@ -103,7 +72,6 @@ public class PlayerController : ObjectsActions
 
         if (!FindHit(rayArray))
         {
-            Debug.Log("Hit");
             rb.velocity = Vector3.zero;
         }
 
@@ -126,7 +94,7 @@ public class PlayerController : ObjectsActions
         {
             if (Physics.Raycast(ray, out hit, detectionDistance))
             {
-                if (hit.collider.gameObject.tag == "Obstacle")//|| hit.collider.gameObject.tag == "Infected"
+                if (hit.collider.gameObject.tag == "Obstacle")
                 {
                     return false;
                 }
@@ -149,55 +117,3 @@ public class PlayerController : ObjectsActions
     }
 
 }
-
-/*
-        // Проверяем столкновение на определенном расстоянии
-        if (!Physics.Raycast(ray, out hit, detectionDistance))
-        {
-            Move();
-            // Объект находится в пределах заданного расстояния
-            Debug.Log("Объект обнаружен на расстоянии: " + hit.distance);
-            // Выполните дополнительные действия, если необходимо
-        }
-
-        
-
-        else if (!Physics.Raycast(ray1, out hit, detectionDistance))
-        {
-            Move();
-            // Объект находится в пределах заданного расстояния
-            Debug.Log("Объект обнаружен на расстоянии: " + hit.distance);
-            // Выполните дополнительные действия, если необходимо
-        }
-
-        else if (!Physics.Raycast(ray2, out hit, detectionDistance))
-        {
-            Move();
-            // Объект находится в пределах заданного расстояния
-            Debug.Log("Объект обнаружен на расстоянии: " + hit.distance);
-            // Выполните дополнительные действия, если необходимо
-        }
-
-
-        else  if (!Physics.Raycast(ray3, out hit, detectionDistance))
-        {
-            Move();
-            // Объект находится в пределах заданного расстояния
-            Debug.Log("Объект обнаружен на расстоянии: " + hit.distance);
-            // Выполните дополнительные действия, если необходимо
-        }
-
-      
-
-        else if (!Physics.Raycast(ray4, out hit, detectionDistance))
-        {
-            Move();
-            // Объект находится в пределах заданного расстояния
-            Debug.Log("Объект обнаружен на расстоянии: " + hit.distance);
-            // Выполните дополнительные действия, если необходимо
-        }
-
-        else
-        {
-            rb.velocity = Vector3.zero;
-        }*/

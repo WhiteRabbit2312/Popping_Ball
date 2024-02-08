@@ -11,6 +11,13 @@ public class PlayerController : ObjectsActions
 
     private Rigidbody rb;
     private GameObject bulletOnScene;
+    private static float playerSize;
+
+    public static float PlayerSize
+    {
+        get => playerSize;
+        private set => playerSize = value;
+    }
 
     void Awake()
     {
@@ -22,6 +29,7 @@ public class PlayerController : ObjectsActions
     {
         if (!IsGameOver())
         {
+            PlayerSize = transform.localScale.x;
             if (Input.GetMouseButtonDown(0))
             {
                 bulletOnScene = Instantiate(bullet, spawnPoint);

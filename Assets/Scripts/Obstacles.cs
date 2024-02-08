@@ -3,6 +3,7 @@ using System;
 
 public class Obstacles : MonoBehaviour
 {
+
     public static Action onObstacleInfected;
     private float rayLength;
     private int numberOfRays = 50;
@@ -11,7 +12,7 @@ public class Obstacles : MonoBehaviour
     {
         if(other.tag == "Bullet")
         {
-            rayLength = other.gameObject.transform.localScale.x;
+            rayLength = other.gameObject.transform.localScale.x * PlayerController.PlayerSize * 0.7f;
             gameObject.tag = "Infected";
             Infection();
             onObstacleInfected?.Invoke();
